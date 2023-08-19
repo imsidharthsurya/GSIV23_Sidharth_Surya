@@ -1,6 +1,7 @@
 import React from "react";
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
+import { NavLink } from "react-router-dom";
 export default function Movielistheader(){
     return(
         <div className="header-cont">
@@ -10,7 +11,7 @@ export default function Movielistheader(){
                     <input type="text" placeholder="Search" />
                 </div>
             </div>
-            <div><HomeIcon/></div>
+            <div><NavLink to="/"><HomeIcon/></NavLink></div>
         </div>
     )
 }
