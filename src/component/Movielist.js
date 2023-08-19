@@ -1,20 +1,19 @@
 import React from "react";
-import Movielistheader from "./Movielistheader";
-import imgsrc from "../img/pic1.jpg"
 import "../styles.css"
-export default function Movielist(){
+export default function Movielist(props){
+    const {title,poster_path,vote_average,overview}=props.movieInfo;
     return(
         <div className="ml-cont">
             <div className="movie-list-img-cont">
-                <img src={imgsrc} className="movie-list-img" alt="movie-poster"/>
+                <img src={`https://image.tmdb.org/t/p/original/${poster_path}`} className="movie-list-img" alt={`${title}_Poster`}/>
             </div>
             <div>
                 <div className="movie-title">
-                    <span className="movie-name"><strong>Movie Tjdstle</strong></span>
-                    <span className="movie-rating">(Rating)</span>
+                    <span className="movie-name"><strong>{title}</strong></span>
+                    <span className="movie-rating">({vote_average==0?"NA":`${vote_average}★`})</span>
                 </div>
                 <div className="desc">
-                    <span className="movie-desc">jdks and tha sa dsf ser sae.</span>
+                    <span className="movie-desc">{overview}</span>
                 </div>
             </div>
         </div>

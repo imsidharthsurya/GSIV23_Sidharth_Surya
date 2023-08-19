@@ -1,46 +1,69 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import Movielist from "./Movielist";
 import "../styles.css"
 import Movielistheader from "./Movielistheader";
+import LoadingSpinner from "./LoadingSpinner";
 export default function Movielistpage(){
+
+    const [upcomingMovies,setUpcomingMovies]=useState([]);
+    const [page,setPage]=useState(1);
+    const [loading,setLoading]=useState(true)
+    const allMovies=upcomingMovies.map((movie,ind)=>{
+        return <NavLink to={`/movie/${movie.id}`} style={{textDecoration:"none"}}>
+                    <Movielist key={movie.id} movieInfo={movie}/>
+                </NavLink>
+    })
+    const getUpcomingMovies=async ()=>{
+        console.log("get upcoming movies fn. called after page value changing")
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGM1MWNkYzY3MmYzMDExZTk4ZDhkMmY0Nzg5M2VhZCIsInN1YiI6IjY0ZTA4NWRlMzcxMDk3MDBhYzQ1MjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SfvGjQwP5D8Y1mXhjSORt07SawPuZbJ315okiKM6Ut4");
+        myHeaders.append("accept", "application/json");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        const res=await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=primary_release_date.desc&primary_release_date.gte=2020-08-01&primary_release_date.lte=2023-07-11&page=${page}`, requestOptions);
+        const data=await res.json();
+        setUpcomingMovies((oldMovies)=>{
+           return [...oldMovies,...data.results]
+        })
+        setLoading(false);
+        
+    }
+    
+    const handleInfiniteScroll=async ()=>{
+        try{
+            if(window.innerHeight+document.documentElement.scrollTop+1>=document.documentElement.scrollHeight){
+                setLoading(true);
+                setPage((oldVal)=>{
+                    return oldVal+1
+                })
+                console.log("new page is called")
+            }
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    useEffect(()=>{
+        getUpcomingMovies();
+    },[page])
+
+    useEffect(()=>{
+        window.addEventListener("scroll",handleInfiniteScroll);
+    },[])
+
     return (
         <div>
             <Movielistheader/>
             <div className="all-movies-list">
-                <NavLink to="/movie/sanket" style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket2"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket3"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket4"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket5"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket6"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket7"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket8"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket9"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-                <NavLink to="/movie/sanket10"style={{textDecoration:"none"}}>
-                    <Movielist/>
-                </NavLink>
-            
-            
+                {allMovies}
             </div>
+            {loading && <LoadingSpinner/>}
         </div>
     )
 }
