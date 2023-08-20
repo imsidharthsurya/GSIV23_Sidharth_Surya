@@ -17,12 +17,17 @@ body{
     object-fit: cover;
 }
 .fir-cont{
+    height: 220px;
+    width: 150px;
+    background-color: #DFDFDF;
+    border: 1px solid #9B9B9B;
     margin: 10px;
 }
 .sec-cont{
     margin: 10px 10px 10px 0px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.8rem;
+    color: #4A4A4A;
 }
 .rating{
     color:#9B9B9B;
@@ -122,3 +127,9 @@ input:focus{
 overflow: hidden;
 text-overflow: ellipsis;
 }
+
+/* .castName{
+    white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow:hidden;
+} */
