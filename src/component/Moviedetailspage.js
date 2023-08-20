@@ -3,7 +3,7 @@ import Moviedetails from "./Moviedetails";
 import LoadingSpinner from "./LoadingSpinner";
 import Moviedetailsheader from "./Moviedetailsheader";
 import { useParams } from "react-router-dom";   //to get the id of the movie from the endpoint
-
+import { prepareHeader } from "../utils/utils";
 
 //two api call & then pass those data as params to movie details & fire those whenver movie id changes
 
@@ -11,20 +11,11 @@ export default function Moviedetailspage(){
     const movieId = useParams().id;
     console.log("movie id is: ",movieId)
     const [allMovieDetails,setAllMovieDetails]=useState({})
-
     const [allCastDetails,setAllCastDetails]=useState({})
     const [loadingDetails,setLoadingDetails]=useState(true)
 
     async function getAllMovieDetails(){
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_API_TOKEN}`);
-        myHeaders.append("accept", "application/json");
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
+        var requestOptions=prepareHeader()
         const res1=await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, requestOptions);
         var data1=await res1.json();
         console.log("data1 ",data1);
