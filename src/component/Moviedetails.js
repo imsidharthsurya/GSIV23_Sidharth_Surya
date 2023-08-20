@@ -19,6 +19,9 @@ export default function Moviedetails(props){
     var casts=castArr.join(', ');
     console.log("all the cast is: ",castArr);
     console.log("all the director: ",directorArr)
+    var minutes=props.movieInfo.runtime%60;
+    var hours=(props.movieInfo.runtime-minutes)/60
+    var totalRunTime=(hours < 10 ? "0" : "") + hours.toString() + ":" + (minutes < 10 ? "0" : "") + minutes.toString();
     return(
     <div className="main-cont">
         <div className="fir-cont">
@@ -26,7 +29,7 @@ export default function Moviedetails(props){
         </div>
         <div className="sec-cont">
             <h3>{props.movieInfo.title} <span className="rating">({props.movieInfo.vote_average==0?"NA":`${_.round(props.movieInfo.vote_average,1)}★`})</span></h3>
-            <p>{props.movieInfo.release_date.substr(0,4)} | {props.movieInfo.runtime!=0?`${props.movieInfo.runtime} Minutes`:"NA"} | {directors.length?directors:"NA"}</p>
+            <p>{props.movieInfo.release_date.substr(0,4)} | {props.movieInfo.runtime!=0?totalRunTime:"NA"} | {directors.length?directors:"NA"}</p>
             <p className="castName">Cast: {casts.length?casts:"NA"}</p>
             <p>Description:{props.movieInfo.overview.length==0?"NA":props.movieInfo.overview}</p>
         </div>
