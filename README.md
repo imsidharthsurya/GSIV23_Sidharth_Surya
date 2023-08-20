@@ -2,6 +2,7 @@
 ## Get the list of upcoming movies or search for any movie
 React Based dynamic web app to get the movie details. Created By Sidharth Surya.
 
+##### Live url: https://sidflash.netlify.app/
 ### How to run the app in your local machine
 - 1st clone the repo then do npm install to install the dependency package.
 - create .env file in the root of your project folder and put your access token created from tmdb website inside it with name **REACT_APP_API_TOKEN**.
