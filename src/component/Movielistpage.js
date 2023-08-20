@@ -25,7 +25,16 @@ export default function Movielistpage(){
             headers: myHeaders,
             redirect: 'follow'
         };
-        const res=await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=primary_release_date.desc&primary_release_date.gte=2020-08-01&primary_release_date.lte=2023-07-11&page=${page}`, requestOptions);
+        var lower_date="2000-08-01"
+        var limit_date=new Date()
+        var curr_month=limit_date.getMonth()
+        limit_date.setMonth(curr_month+1)
+        // console.log("the new date will be: ",limit_date)
+        const offset = limit_date.getTimezoneOffset()
+        limit_date = new Date(limit_date.getTime() - (offset*60*1000))
+        limit_date= limit_date.toISOString().split('T')[0]
+        // console.log("Date in yyyy-mm-dd format is: ",limit_date)
+        const res=await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=primary_release_date.desc&primary_release_date.gte=${lower_date}&primary_release_date.lte=${limit_date}&page=${page}`, requestOptions);
         const data=await res.json();
         setUpcomingMovies((oldMovies)=>{
            return [...oldMovies,...data.results]
