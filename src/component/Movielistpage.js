@@ -17,7 +17,7 @@ export default function Movielistpage(){
     const getUpcomingMovies=async ()=>{
         console.log("get upcoming movies fn. called after page value changing")
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MGM1MWNkYzY3MmYzMDExZTk4ZDhkMmY0Nzg5M2VhZCIsInN1YiI6IjY0ZTA4NWRlMzcxMDk3MDBhYzQ1MjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SfvGjQwP5D8Y1mXhjSORt07SawPuZbJ315okiKM6Ut4");
+        myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_API_TOKEN}`);
         myHeaders.append("accept", "application/json");
 
         var requestOptions = {
