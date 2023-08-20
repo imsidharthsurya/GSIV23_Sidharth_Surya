@@ -103,6 +103,7 @@ export default function Movielistpage(){
             },1000)
             
         }else{
+            console.log("search movie becomes empty")
             var movieTimer=setTimeout(()=>{
                 var lower_date="2000-08-01"
                 var limit_date=new Date()
@@ -113,7 +114,20 @@ export default function Movielistpage(){
                 limit_date = new Date(limit_date.getTime() - (offset*60*1000))
                 limit_date= limit_date.toISOString().split('T')[0]
                 // console.log("Date in yyyy-mm-dd format is: ",limit_date)
-                setPage(1);
+                // setPage(1);
+                //instead of setting page call get data with url and 1st page with search = true so that overwrite and only contains 1st page value
+                var lower_date="2000-08-01"
+            var limit_date=new Date()
+            var curr_month=limit_date.getMonth()
+            limit_date.setMonth(curr_month+1)
+            // console.log("the new date will be: ",limit_date)
+            const offset1 = limit_date.getTimezoneOffset()
+            limit_date = new Date(limit_date.getTime() - (offset1*60*1000))
+            limit_date= limit_date.toISOString().split('T')[0]
+            // console.log("Date in yyyy-mm-dd format is: ",limit_date)
+            var url=`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=primary_release_date.desc&primary_release_date.gte=${lower_date}&primary_release_date.lte=${limit_date}&page=1`
+                getUpcomingMovies(url,true)
+                console.log("after setting the page in search empty page value is ",page)
                 // console.log("the latest value of page is ",page)
                 // var url=`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=primary_release_date.desc&primary_release_date.gte=${lower_date}&primary_release_date.lte=${limit_date}&page=${page}`
                 // getUpcomingMovies(url,true);
@@ -138,7 +152,7 @@ export default function Movielistpage(){
                 <div><NavLink to="/"><HomeIcon/></NavLink></div>
             </div>
             <div className="all-movies-list">
-                {allMovies}
+                {allMovies.length==0?<h3 className="no-movie-found">No Movies found!!!</h3>:allMovies}
             </div>
             {(loading && searchMovieName=="")&& <LoadingSpinner/>}
         </div>

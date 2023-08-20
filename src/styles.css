@@ -133,3 +133,8 @@ text-overflow: ellipsis;
 	text-overflow:ellipsis;
 	overflow:hidden;
 } */
+
+.no-movie-found{
+    color: red;
+    margin-top: 20px;
+}
